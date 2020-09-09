@@ -34,18 +34,27 @@ es decir contiene los modelos con los datos en memoria
 # -----------------------------------------------------
 # API del TAD Catalogo de Libros
 # -----------------------------------------------------
-
+def movieList(lst,datastructure,cmpfunction):
+    lst=lt.newList(datastructure,cmpfunction)
+    return lst
 
 
 # Funciones para agregar informacion al catalogo
-
+def addmovie(lst,movie):
+    lt.addLast(lst,movie)
+    
 
 
 # ==============================
 # Funciones de consulta
 # ==============================
-
-
+def getmovie(lst,pos):
+    movie=lt.getElement(lst,pos)
+    return movie 
+    
+def getlastmovie(lst,pos):
+    movie=lt.lastElement
+    return movie
 
 # ==============================
 # Funciones de Comparacion
