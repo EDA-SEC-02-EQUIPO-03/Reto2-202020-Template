@@ -53,7 +53,7 @@ def getmovie(lst,pos):
     return movie 
     
 def getlastmovie(lst):
-    movie=lt.lastElementlst)
+    movie=lt.lastElement(lst)
     return movie
 
 # ==============================
