@@ -48,6 +48,9 @@ def addmovie(lst,movie):
 # ==============================
 # Funciones de consulta
 # ==============================
+def size(lst):
+    return lt.size(lst)
+    
 def getmovie(lst,pos):
     movie=lt.getElement(lst,pos)
     return movie 
