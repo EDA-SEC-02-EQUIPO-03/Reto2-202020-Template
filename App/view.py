@@ -38,10 +38,11 @@ operación seleccionada.
 #  Ruta a los archivos
 # ___________________________________________________
 def ejecutar_cargar_datos():
+    printMenu()
     ruta_casting="Data/themoviesdb/MoviesCastingRaw-small.csv" 
     ruta_details="Data/themoviesdb/SmallMoviesDetailsCleaned.csv"
-    ar1=co.loadcsvfile(ruta_casting)
-    ar2=co.loadcsvfile(ruta_details)
+    ar1=co.loadCSVfile(ruta_casting)
+    ar2=co.loadCSVfile(ruta_details)
     print("El número de películas cargadas",len(ar2))
     print("Información de la primera y ultima pelicula:")
     print("La primera pelicula se llama ",0," y tiene como fecha de estreno\n",0,
@@ -87,3 +88,53 @@ def printMenu():
     print("5- Entender un género cinematográfico")
     print("6- Encontrar películas por país")
     print("0- Salir")
+def main():
+    """
+    Método principal del programa, se encarga de manejar todos los metodos adicionales creados
+
+    Instancia una lista vacia en la cual se guardarán los datos cargados desde el archivo
+    Args: None
+    Return: None 
+    """
+
+    while True:
+        printMenu() #imprimir el menu de opciones en consola
+        inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
+        if len(inputs)>0:
+
+            if int(inputs[0])==1: #opcion 1
+                'Cargando datos'
+                lstmovies = loadMovies()
+                lstcast = loadCast()
+
+            elif int(inputs[0])==2: #opcion 2
+                if lstmovies==None or lt.size(lstmovies)==0:
+                    print("la lista esta vacia")
+                else:
+                    
+                   
+            elif int(inputs[0])==3: #opcion 3
+                if lstmovies==None or lt.size(lstmovies)==0:
+                    print("la lista esta vacia")
+                if lstcast==None or lt.size(lstcast)==0:
+                    print("la lista esta vacia")
+                else:
+                    
+            elif int(inputs[0])==4: #opcion 4
+                
+
+            elif int(inputs[0])==5: #opcion 5
+                if lstmovies==None or lstmovies['size']==0:
+                    print("la lista esta vacia")
+                else:
+
+            elif int(inputs[0])==6: #opcion 6
+                if lstmovies==None or lt.size(lstmovies)==0:
+                    print("la lista de MOVIES DETAILS  esta vacia")
+                else:
+                    
+            elif int(inputs[0])==0: #opcion 0, salir
+                sys.exit(0)
+                
+if __name__ == "__main__":
+    main()
