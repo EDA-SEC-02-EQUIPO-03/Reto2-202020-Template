@@ -48,17 +48,16 @@ def loadCSVFile (file, cmpfunction):
     except:
         print("Hubo un error con la carga del archivo")
     return lst
+# ___________________________________________________
+#  Funciones para la carga de datos y almacenamiento
+#  de datos en los modelos
+# ___________________________________________________
 
 def getlastmovie(lst):
     return model.getlastmovie(lst)
 
 def getmovie(lst,pos):
     return model.getmovie(lst, pos)
-
-
-
-# ___________________________________________________
-#  Funciones para la carga de datos y almacenamiento
-#  de datos en los modelos
-# ___________________________________________________
-
+    
+def size(lst):
+    return model.size(lst)
