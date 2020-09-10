@@ -41,8 +41,9 @@ def ejecutar_cargar_datos():
     printMenu()
     ruta_casting="Data/themoviesdb/MoviesCastingRaw-small.csv" 
     ruta_details="Data/themoviesdb/SmallMoviesDetailsCleaned.csv"
-    ar1=co.loadCSVfile(ruta_casting)
-    ar2=co.loadCSVfile(ruta_details)
+    ar1=co.loadCSVFile(ruta_casting,None)
+    ar2=co.loadCSVFile(ruta_details,None)
+    print("Datos cargados:",ar1+ar2)
     print("El número de películas cargadas",len(ar2))
     print("Información de la primera y ultima pelicula:")
     print("La primera pelicula se llama ",0," y tiene como fecha de estreno\n",0,
@@ -104,26 +105,18 @@ def main():
 
             if int(inputs[0])==1: #opcion 1
                 'Cargando datos'
-                lstmovies = loadMovies()
-                lstcast = loadCast()
+                ejecutar_cargar_datos()
 
             elif int(inputs[0])==2: #opcion 2
-                if lstmovies==None or lt.size(lstmovies)==0:
-                    print("la lista esta vacia")
+                print("0")
             elif int(inputs[0])==3: #opcion 3
-                if lstmovies==None or lt.size(lstmovies)==0:
-                    print("la lista esta vacia")
-                if lstcast==None or lt.size(lstcast)==0:
-                    print("la lista esta vacia")
+                print("0")
             elif int(inputs[0])==4: #opcion 4
-                if lstcast==None or lt.size(lstcast)==0:
-                    print("la lista esta vacia")
+                print("0")
             elif int(inputs[0])==5: #opcion 5
-                if lstmovies==None or lstmovies['size']==0:
-                    print("la lista esta vacia")
+                print("0")
             elif int(inputs[0])==6: #opcion 6
-                if lstmovies==None or lt.size(lstmovies)==0:
-                    print("la lista de MOVIES DETAILS  esta vacia")     
+                print("0")    
             elif int(inputs[0])==0: #opcion 0, salir
                 sys.exit(0)
                 
