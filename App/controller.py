@@ -49,6 +49,11 @@ def loadCSVFile (file, cmpfunction):
         print("Hubo un error con la carga del archivo")
     return lst
 
+def getlastmovie(lst):
+    return model.getlastmovie(lst)
+
+def getmovie(lst,pos):
+    return model.getmovie(lst, pos)
 
 
 
