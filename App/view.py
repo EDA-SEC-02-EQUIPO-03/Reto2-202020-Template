@@ -41,19 +41,19 @@ def ejecutar_cargar_datos():
     printMenu()
     ruta_casting="Data/themoviesdb/MoviesCastingRaw-small.csv" 
     ruta_details="Data/themoviesdb/SmallMoviesDetailsCleaned.csv"
-    ar1=co.loadCSVFile(ruta_casting,None)
-    ar2=co.loadCSVFile(ruta_details,None)
-    dicf=co.getlastmovie(ar2)
-    dici=co.getmovie(ar2,1)
-    print("Datos cargados:",co.size(ar1)+co.size(ar2))
-    print("El número de películas cargadas",len(ar2))
-    print("Información de la primera y ultima pelicula:")
-    print("La primera pelicula se llama ",dici['title']," y tiene como fecha de estreno\n",dici['release_date'],
-          ". Su promedio de votación es de",dici['vote_average'],", el numero de votos que obtuvo fue \n",dici['vote_count'],
-          " y el idioma de la pelicula es el ",dici['original_language'],".")
-    print("La segunda pelicula se llama ",dicf['title']," y tiene como fecha de estreno\n",dicf['release_date'],
-          ". Su promedio de votación es de",dicf['vote_average'],", el numero de votos que obtuvo fue \n",dicf['vote_count'],
-          " y el idioma de la pelicula es el ",dicf['original_language'],".")
+    Catalog=co.initCatalog()
+    co.loadData(Catalog,ruta_details,ruta_casting)
+    # ar1=co.loadCSVFile(ruta_casting,None)
+    # ar2=co.loadCSVFile(ruta_details,None)
+    # print("Datos cargados:",ar1+ar2)
+    # print("El número de películas cargadas",len(ar2))
+    # print("Información de la primera y ultima pelicula:")
+    # print("La primera pelicula se llama ",0," y tiene como fecha de estreno\n",0,
+    #       ". Su promedio de votación es de",0,", el numero de votos que obtuvo fue \n",0,
+    #       " y el idioma de la pelicula es el ",0,".")
+    # print("La segunda pelicula se llama ",0," y tiene como fecha de estreno\n",0,
+    #       ". Su promedio de votación es de",0,", el numero de votos que obtuvo fue \n",0,
+    #       " y el idioma de la pelicula es el ",0,".")
 # ___________________________________________________
 #  Funciones para imprimir la inforamación de
 #  respuesta.  La vista solo interactua con

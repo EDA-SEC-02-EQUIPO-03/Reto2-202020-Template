@@ -34,10 +34,6 @@ es decir contiene los modelos con los datos en memoria
 # -----------------------------------------------------
 # API del TAD Catalogo de Peliculas
 # -----------------------------------------------------
-<<<<<<< HEAD
-def newCatalog():
-    """ Inicializa el catálogo de libros
-=======
 def movieList(datastructure,cmpfunction):
     lst=lt.newList(datastructure,cmpfunction)
     return lst
@@ -85,59 +81,9 @@ def newCatalog():
                                  comparefunction=compareMapYear)
 
     return catalog
->>>>>>> origin/d-sanchezu2
-
-    Crea una lista vacia para guardar todos los libros
-
-    Se crean indices (Maps) por los siguientes criterios:
-    Autores
-    ID libros
-    Tags
-    Año de publicacion
-
-    Retorna el catalogo inicializado.
-    """
-    catalog = {'movies': None,
-               'companies': None}
-
-    catalog['movies'] = lt.newList('ARRAY_LIST')
-    catalog['production_company'] = mp.newMap(500,
-                                   maptype='PROBING',
-                                   loadfactor=0.4,
-                                   comparefunction=comparemovieIds)
-
-    return catalog
 
 
-def newCompany(name)
-    company = {'name': "", "movies": None,  "average_rating": 0}
-    company['name'] = name
-    company['movies'] = lt.newList('SINGLE_LINKED', compareid)
-    return company
 # Funciones para agregar informacion al catalogo
-<<<<<<< HEAD
-
-def addmoviecompany(catalog,company_name,movie)
-    companies=catalog['companies']
-    existcompany= mp.contains(companies,company_name)
-    if existcompany:
-        entry= mp.get(companies,company_name)
-        company=me.getValue(entry)
-    else:
-        company=newCompany(company_name)
-        mp.put(companies,company_name,company)
-    lt.addLast(company['movies'],movie)
-        
-    compavg = company['average_rating']
-    movieavg = movie['average_rating']
-    n=lt.size(company['movies'])
-    if (compavg == 0.0):
-        company['average_rating'] = float(movieavg)
-    else:
-        company['average_rating'] = ((compavg*(n/(n+1)) )+ (float(movieavg)/(n+1))) 
-
-
-=======
 def addmovie(lst,movie):
     lt.addLast(lst,movie)
 
@@ -149,12 +95,10 @@ def addMovie(catalog, movie):
     libro fue publicaco en ese año.
     """
     lt.addLast(catalog['movies'], movie)
->>>>>>> origin/d-sanchezu2
     
     studioname=movie['production_companies']
  
     addMovieStudio(catalog, studioname,movie)
-
 
 def newStudio(name):
     """
@@ -198,7 +142,7 @@ def size(lst):
     return lt.size(lst)
     
 def getMoviesByCompany(catalog,company_name):
-    movie=mp.get(catalog['company'], companyname)
+    movie=mp.get(catalog['company'], company_name)
     if movie:
         return me.getValue(movie)
     return None
@@ -210,17 +154,10 @@ def getlastmovie(lst):
 # ==============================
 # Funciones de Comparacion
 # ==============================
-<<<<<<< HEAD
-def compareid(id1, id2):
-    """
-    Compara dos ids de libros, id es un identificador
-    y entry una pareja llave-valor
-=======
 
 def compareMovieIds(id1, id2):
     """
     Compara dos ids de libros
->>>>>>> origin/d-sanchezu2
     """
     if (id1 == id2):
         return 0
@@ -228,8 +165,6 @@ def compareMovieIds(id1, id2):
         return 1
     else:
         return -1
-<<<<<<< HEAD
-=======
 
 
 
@@ -242,31 +177,6 @@ def compareAuthorsStudiosByName(keyname, studio):
     if (keyname == studioentry):
         return 0
     elif (keyname > studioentry):
-        return 1
-    else:
-        return -1
-
-def compareBookIds(id1, id2):
-    """
-    Compara dos ids de libros
-    """
-    if (id1 == id2):
-        return 0
-    elif id1 > id2:
-        return 1
-    else:
-        return -1
-
-
-def compareMapBookIds(id, entry):
-    """
-    Compara dos ids de libros, id es un identificador
-    y entry una pareja llave-valor
-    """
-    identry = me.getKey(entry)
-    if (int(id) == int(identry)):
-        return 0
-    elif (int(id) > int(identry)):
         return 1
     else:
         return -1
@@ -315,7 +225,6 @@ def compareMapYear(id, tag):
     else:
         return 0
 
->>>>>>> origin/d-sanchezu2
 
 def compareYears(year1, year2):
     if (int(year1) == int(year2)):
