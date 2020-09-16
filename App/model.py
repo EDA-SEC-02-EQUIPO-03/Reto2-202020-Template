@@ -96,7 +96,7 @@ def size(lst):
     return lt.size(lst)
     
 def getMoviesByCompany(catalog,company_name):
-    movie=mp.get(atalog['company'], companyname)
+    movie=mp.get(catalog['company'], companyname)
     if movie:
         return me.getValue(movie)
     return None
