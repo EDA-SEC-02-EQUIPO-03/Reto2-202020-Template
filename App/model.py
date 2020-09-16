@@ -32,16 +32,60 @@ es decir contiene los modelos con los datos en memoria
 """
 
 # -----------------------------------------------------
-# API del TAD Catalogo de Libros
+# API del TAD Catalogo de Peliculas
 # -----------------------------------------------------
-def movieList(datastructure,cmpfunction):
-    lst=lt.newList(datastructure,cmpfunction)
-    return lst
+def newCatalog():
+    """ Inicializa el catálogo de libros
+
+    Crea una lista vacia para guardar todos los libros
+
+    Se crean indices (Maps) por los siguientes criterios:
+    Autores
+    ID libros
+    Tags
+    Año de publicacion
+
+    Retorna el catalogo inicializado.
+    """
+    catalog = {'movies': None,
+               'companies': None}
+
+    catalog['movies'] = lt.newList('ARRAY_LIST')
+    catalog['production_company'] = mp.newMap(500,
+                                   maptype='PROBING',
+                                   loadfactor=0.4,
+                                   comparefunction=comparemovieIds)
+
+    return catalog
 
 
+def newCompany(name)
+    company = {'name': "", "movies": None,  "average_rating": 0}
+    company['name'] = name
+    company['movies'] = lt.newList('SINGLE_LINKED', compareid)
+    return company
 # Funciones para agregar informacion al catalogo
-def addmovie(lst,movie):
-    lt.addLast(lst,movie)
+
+def addmoviecompany(catalog,company_name,movie)
+    companies=catalog['companies']
+    existcompany= mp.contains(companies,company_name)
+    if existcompany:
+        entry= mp.get(companies,company_name)
+        company=me.getValue(entry)
+    else:
+        company=newCompany(company_name)
+        mp.put(companies,company_name,company)
+    lt.addLast(company['movies'],movie)
+        
+    compavg = company['average_rating']
+    movieavg = movie['average_rating']
+    n=lt.size(company['movies'])
+    if (compavg == 0.0):
+        company['average_rating'] = float(movieavg)
+    else:
+        company['average_rating'] = ((compavg*(n/(n+1)) )+ (float(movieavg)/(n+1))) 
+
+
     
 
 
@@ -51,9 +95,11 @@ def addmovie(lst,movie):
 def size(lst):
     return lt.size(lst)
     
-def getmovie(lst,pos):
-    movie=lt.getElement(lst,pos)
-    return movie 
+def getMoviesByCompany(catalog,company_name):
+    movie=mp.get(atalog['company'], companyname)
+    if movie:
+        return me.getValue(movie)
+    return None
     
 def getlastmovie(lst):
     movie=lt.lastElement(lst)
@@ -62,5 +108,15 @@ def getlastmovie(lst):
 # ==============================
 # Funciones de Comparacion
 # ==============================
-
+def compareid(id1, id2):
+    """
+    Compara dos ids de libros, id es un identificador
+    y entry una pareja llave-valor
+    """
+    if (id1 == id2):
+        return 0
+    elif id1 > id2:
+        return 1
+    else:
+        return -1
 
