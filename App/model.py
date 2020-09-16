@@ -111,6 +111,7 @@ def newStudio(name):
     studio['movie'] = lt.newList('ARRAY_LINKED', compareAuthorsStudiosByName)
     return studio
 
+
 def addMovieStudio(catalog, studioname, movie):
     """
     Esta función adiciona un libro a la lista de libros publicados
@@ -137,8 +138,15 @@ def addMovieStudio(catalog, studioname, movie):
 # ==============================
 # Funciones de consulta
 # ==============================
+def getMoviesByCompany(catalog,company_name):
+    movie=mp.get(catalog['studios'], companyname)
+    if movie:
+        return me.getValue(movie)
+    return None
+
 def getKey(mapa,key):
     return mp.get(mapa,key)
+
 def size(lst):
     return lt.size(lst)
     
@@ -154,6 +162,8 @@ def getlastmovie(lst):
 # Funciones de Comparacion
 # ==============================
 
+
+
 def compareMovieIds(id1, id2):
     """
     Compara dos ids de libros
@@ -166,7 +176,6 @@ def compareMovieIds(id1, id2):
         return -1
 
 
-
 def compareAuthorsStudiosByName(keyname, studio):
     """
     Compara dos nombres de autor. El primero es una cadena
@@ -176,31 +185,6 @@ def compareAuthorsStudiosByName(keyname, studio):
     if (keyname == studioentry):
         return 0
     elif (keyname > studioentry):
-        return 1
-    else:
-        return -1
-
-def compareBookIds(id1, id2):
-    """
-    Compara dos ids de libros
-    """
-    if (id1 == id2):
-        return 0
-    elif id1 > id2:
-        return 1
-    else:
-        return -1
-
-
-def compareMapBookIds(id, entry):
-    """
-    Compara dos ids de libros, id es un identificador
-    y entry una pareja llave-valor
-    """
-    identry = me.getKey(entry)
-    if (int(id) == int(identry)):
-        return 0
-    elif (int(id) > int(identry)):
         return 1
     else:
         return -1
@@ -257,3 +241,13 @@ def compareYears(year1, year2):
         return 1
     else:
         return 0
+
+
+
+
+# Funciones para agregar informacion al catalogo
+
+
+
+
+

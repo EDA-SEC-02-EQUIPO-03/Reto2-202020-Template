@@ -35,12 +35,18 @@ recae sobre el controlador.
 
 # ___________________________________________________
 #  Inicializacion del catalogo
+# ___________________________________________________
+
 def initCatalog():
     """
     Llama la funcion de inicializacion del catalogo del modelo.
     """
     # catalog es utilizado para interactuar con el modelo
     return model.newCatalog()
+
+# __________________________________________________
+#  Funciones para la carga de datos y almacenamiento
+#  de datos en los modelos
 # ___________________________________________________
 
 def loadMovies(catalog, booksfile):
@@ -57,28 +63,14 @@ def loadMovies(catalog, booksfile):
         model.addMovie(catalog, movie)
  
 
-def loadData(catalog, booksfile):
+def loadData(catalog, detailsfile, castingfile):
     """
     Carga los datos de los archivos en el modelo
     """
-    loadMovies(catalog, booksfile)
-   
-def loadCSVFile (file, cmpfunction):
-    lst=model.movieList("ARRAY_LIST", cmpfunction)
-    dialect = csv.excel()
-    dialect.delimiter=";"
-    try:
-        with open (file, encoding="utf-8") as csvfile:
-            row = csv.DictReader(csvfile, dialect=dialect)
-            for elemento in row: 
-                model.addmovie(lst,elemento)
-    except:
-        print("Hubo un error con la carga del archivo")
-    return lst
-# ___________________________________________________
-#  Funciones para la carga de datos y almacenamiento
-#  de datos en los modelos
-# ___________________________________________________
+    loadMovies(catalog, detailsfile)
+
+def getMoviesByCompany(catalog,company_name):
+    return model.getMoviesByCompany(catalog,company_name)
 
 def getlastmovie(lst):
     return model.getlastmovie(lst)
@@ -88,3 +80,8 @@ def getmovie(lst,pos):
     
 def size(lst):
     return model.size(lst)
+
+# ___________________________________________________
+#  Funciones de Estetica
+# ___________________________________________________
+
