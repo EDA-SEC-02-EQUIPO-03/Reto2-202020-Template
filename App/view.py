@@ -38,18 +38,22 @@ operación seleccionada.
 #  Ruta a los archivos
 # ___________________________________________________
 def ejecutar_cargar_datos():
+    printMenu()
     ruta_casting="Data/themoviesdb/MoviesCastingRaw-small.csv" 
     ruta_details="Data/themoviesdb/SmallMoviesDetailsCleaned.csv"
-    ar1=co.loadcsvfile(ruta_casting)
-    ar2=co.loadcsvfile(ruta_details)
-    print("El número de películas cargadas",len(ar2))
-    print("Información de la primera y ultima pelicula:")
-    print("La primera pelicula se llama ",0," y tiene como fecha de estreno\n",0,
-          ". Su promedio de votación es de",0,", el numero de votos que obtuvo fue \n",0,
-          " y el idioma de la pelicula es el ",0,".")
-    print("La segunda pelicula se llama ",0," y tiene como fecha de estreno\n",0,
-          ". Su promedio de votación es de",0,", el numero de votos que obtuvo fue \n",0,
-          " y el idioma de la pelicula es el ",0,".")
+    Catalog=co.initCatalog()
+    co.loadData(Catalog,ruta_details,ruta_casting)
+    # ar1=co.loadCSVFile(ruta_casting,None)
+    # ar2=co.loadCSVFile(ruta_details,None)
+    # print("Datos cargados:",ar1+ar2)
+    # print("El número de películas cargadas",len(ar2))
+    # print("Información de la primera y ultima pelicula:")
+    # print("La primera pelicula se llama ",0," y tiene como fecha de estreno\n",0,
+    #       ". Su promedio de votación es de",0,", el numero de votos que obtuvo fue \n",0,
+    #       " y el idioma de la pelicula es el ",0,".")
+    # print("La segunda pelicula se llama ",0," y tiene como fecha de estreno\n",0,
+    #       ". Su promedio de votación es de",0,", el numero de votos que obtuvo fue \n",0,
+    #       " y el idioma de la pelicula es el ",0,".")
 # ___________________________________________________
 #  Funciones para imprimir la inforamación de
 #  respuesta.  La vista solo interactua con
@@ -87,3 +91,36 @@ def printMenu():
     print("5- Entender un género cinematográfico")
     print("6- Encontrar películas por país")
     print("0- Salir")
+def main():
+    """
+    Método principal del programa, se encarga de manejar todos los metodos adicionales creados
+
+    Instancia una lista vacia en la cual se guardarán los datos cargados desde el archivo
+    Args: None
+    Return: None 
+    """
+
+    while True:
+        printMenu() #imprimir el menu de opciones en consola
+        inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
+        if len(inputs)>0:
+
+            if int(inputs[0])==1: #opcion 1
+                'Cargando datos'
+                ejecutar_cargar_datos()
+
+            elif int(inputs[0])==2: #opcion 2
+                print("0")
+            elif int(inputs[0])==3: #opcion 3
+                print("0")
+            elif int(inputs[0])==4: #opcion 4
+                print("0")
+            elif int(inputs[0])==5: #opcion 5
+                print("0")
+            elif int(inputs[0])==6: #opcion 6
+                print("0")    
+            elif int(inputs[0])==0: #opcion 0, salir
+                sys.exit(0)
+                
+if __name__ == "__main__":
+    main()
