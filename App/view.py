@@ -45,9 +45,9 @@ def ejecutar_cargar_datos():
 
 def getMoviesbyCompany():
     company_name= input("Escriba el nombre de la compañia que quiere conocer ")
-    movies=co.getMoviesbyCompany(Catalog,company_name)
+    movies=co.getMoviesbyCompany(catalog,company_name)
     print("Las peliculas de la compañia de producción son: \b")
-    for movie in range(1,lt.size(movies["movies"]))
+    for movie in range(1,lt.size(movies["movies"])):
         print(lt.getElement(movies["movies"],movie),"\b")
     print('estas tienen una calificación promedio de de',str(movies["average_rating"]) )
     
