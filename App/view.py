@@ -38,43 +38,31 @@ operación seleccionada.
 #  Ruta a los archivos
 # ___________________________________________________
 def ejecutar_cargar_datos():
-    printMenu()
     ruta_casting="Data/themoviesdb/MoviesCastingRaw-small.csv" 
     ruta_details="Data/themoviesdb/SmallMoviesDetailsCleaned.csv"
     Catalog=co.initCatalog()
     co.loadData(Catalog,ruta_details,ruta_casting)
-    # ar1=co.loadCSVFile(ruta_casting,None)
-    # ar2=co.loadCSVFile(ruta_details,None)
-    # print("Datos cargados:",ar1+ar2)
-    # print("El número de películas cargadas",len(ar2))
-    # print("Información de la primera y ultima pelicula:")
-    # print("La primera pelicula se llama ",0," y tiene como fecha de estreno\n",0,
-    #       ". Su promedio de votación es de",0,", el numero de votos que obtuvo fue \n",0,
-    #       " y el idioma de la pelicula es el ",0,".")
-    # print("La segunda pelicula se llama ",0," y tiene como fecha de estreno\n",0,
-    #       ". Su promedio de votación es de",0,", el numero de votos que obtuvo fue \n",0,
-    #       " y el idioma de la pelicula es el ",0,".")
+
+def getMoviesbyCompany():
+    company_name= input("Escriba el nombre de la compañia que quiere conocer ")
+    movies=co.getMoviesbyCompany(Catalog,company_name)
+    print("Las peliculas de la compañia de producción son: \b")
+    for movie in range(1,lt.size(movies["movies"]))
+        print(lt.getElement(movies["movies"],movie),"\b")
+    print('estas tienen una calificación promedio de de',str(movies["average_rating"]) )
+    
+    
+
+
+
+
 # ___________________________________________________
 #  Funciones para imprimir la inforamación de
 #  respuesta.  La vista solo interactua con
 #  el controlador.
 # ___________________________________________________
- 
-def ejecutar_Descubrir_productoras_de_cine():
 
-    return 0 
-def ejecutar_Conocer_a_un_director():
 
-    return 0
-def ejecutar_Conocer_a_un_actor():
-
-    return 0
-
-def ejecutar_Entender_un_género_cinematográfico():
-    return 0
-
-def ejecutar_Encontrar_películas_por_país():
-    return 0
 
 # ___________________________________________________
 #  Menu principal
@@ -110,7 +98,8 @@ def main():
                 ejecutar_cargar_datos()
 
             elif int(inputs[0])==2: #opcion 2
-                print("0")
+                getMoviesbyCompany()
+                
             elif int(inputs[0])==3: #opcion 3
                 print("0")
             elif int(inputs[0])==4: #opcion 4
