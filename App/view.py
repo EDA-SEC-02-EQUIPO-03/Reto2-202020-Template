@@ -27,6 +27,7 @@ from DISClib.DataStructures import listiterator as it
 from App import controller as co
 assert config
 
+
 """
 La vista se encarga de la interacción con el usuario.
 Presenta el menu de opciones y por cada seleccion
@@ -39,10 +40,12 @@ operación seleccionada.
 # ___________________________________________________
 def ejecutar_cargar_datos():
     printMenu()
-    ruta_casting="Data/themoviesdb/MoviesCastingRaw-small.csv" 
-    ruta_details="Data/themoviesdb/SmallMoviesDetailsCleaned.csv"
-    Catalog=co.initCatalog()
-    co.loadData(Catalog,ruta_details,ruta_casting)
+    ruta_casting="themoviesdb/MoviesCastingRaw-small.csv" 
+    ruta_details="themoviesdb/SmallMoviesDetailsCleaned.csv"
+    catalog=co.initCatalog()
+    catalog=co.loadData(catalog,ruta_details,ruta_casting)
+    return catalog
+
     # ar1=co.loadCSVFile(ruta_casting,None)
     # ar2=co.loadCSVFile(ruta_details,None)
     # print("Datos cargados:",ar1+ar2)
@@ -55,14 +58,17 @@ def ejecutar_cargar_datos():
     #       ". Su promedio de votación es de",0,", el numero de votos que obtuvo fue \n",0,
     #       " y el idioma de la pelicula es el ",0,".")
 # ___________________________________________________
+
 #  Funciones para imprimir la inforamación de
 #  respuesta.  La vista solo interactua con
 #  el controlador.
 # ___________________________________________________
  
-def ejecutar_Descubrir_productoras_de_cine():
-
-    return 0 
+def ejecutar_Descubrir_productoras_de_cine(datos,productora):
+    
+    res=co.getMoviesByCompany(datos, productora)
+    
+    return res
 def ejecutar_Conocer_a_un_director():
 
     return 0
@@ -107,10 +113,12 @@ def main():
 
             if int(inputs[0])==1: #opcion 1
                 'Cargando datos'
-                ejecutar_cargar_datos()
+                catalog = ejecutar_cargar_datos()
 
             elif int(inputs[0])==2: #opcion 2
-                print("0")
+                productora=str(input("¿Qué productora desea conocer?"))
+                res= ejecutar_Descubrir_productoras_de_cine(catalog,productora)
+                print(res)
             elif int(inputs[0])==3: #opcion 3
                 print("0")
             elif int(inputs[0])==4: #opcion 4

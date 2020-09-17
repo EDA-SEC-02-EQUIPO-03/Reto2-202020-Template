@@ -6,6 +6,9 @@ el modelo varias veces o integrar varias de las respuestas
 del modelo en una sola respuesta. Esta responsabilidad
 recae sobre el controlador.
 """
+import config as cf 
+from App import model
+import csv
 
 # ___________________________________________________
 #  Inicializacion del catalogo
@@ -42,6 +45,7 @@ def loadData(catalog, detailsfile, castingfile):
     Carga los datos de los archivos en el modelo
     """
     loadMovies(catalog, detailsfile)
+    return catalog
 
 def getMoviesByCompany(catalog,company_name):
     return model.getMoviesByCompany(catalog,company_name)
