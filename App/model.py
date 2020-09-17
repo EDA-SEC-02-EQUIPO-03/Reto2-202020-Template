@@ -24,7 +24,7 @@ from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
 assert config
-
+from time import process_time 
 """
 En este archivo definimos los TADs que vamos a usar,
 es decir contiene los modelos con los datos en memoria
@@ -51,35 +51,37 @@ def newCatalog():
 
     Retorna el catalogo inicializado.
     """
+    t1_start = process_time()
     catalog = {'Movies': None,
                'studios': None,
                'Directores': None,
                'Actores': None,
                'Generos': None,
                'Pais': None}
-
+    #'CHAINING' 'PROBING'
     catalog['movies'] = lt.newList('SINGLE_LINKED', compareMovieIds)
     catalog['studios'] = mp.newMap(200,
                                    maptype='CHAINING',
-                                   loadfactor=0.4,
+                                   loadfactor=2,
                                    comparefunction=compareAuthorsStudiosByName)
     catalog['Directores'] = mp.newMap(200,
                                    maptype='CHAINING',
-                                   loadfactor=0.4,
+                                   loadfactor=2,
                                    comparefunction=compareAuthorsByName)
     catalog['Actores'] = mp.newMap(1000,
                                 maptype='CHAINING',
-                                loadfactor=0.7,
+                                loadfactor=2,
                                 comparefunction=compareTagNames)
     catalog['Generos'] = mp.newMap(1000,
                                   maptype='CHAINING',
-                                  loadfactor=0.7,
+                                  loadfactor=2,
                                   comparefunction=compareTagIds)
     catalog['Pais'] = mp.newMap(500,
                                  maptype='CHAINING',
-                                 loadfactor=0.7,
+                                 loadfactor=2,
                                  comparefunction=compareMapYear)
-
+    t1_stop = process_time() 
+    print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
     return catalog
 
 
@@ -142,10 +144,12 @@ def size(lst):
     return lt.size(lst)
     
 def getMoviesByCompany(catalog,company_name):
-    movie=mp.get(catalog['company'], company_name)
+    print(type(catalog))
+    print(type(company_name))
+    movie=mp.get(catalog['studios'], company_name)
     if movie:
         return me.getValue(movie)
-    return None
+
     
 def getlastmovie(lst):
     movie=lt.lastElement(lst)

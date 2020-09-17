@@ -27,6 +27,7 @@ from DISClib.DataStructures import listiterator as it
 from App import controller as co
 assert config
 
+
 """
 La vista se encarga de la interacción con el usuario.
 Presenta el menu de opciones y por cada seleccion
@@ -57,11 +58,11 @@ def getMoviesbyCompany():
 
 
 # ___________________________________________________
+
 #  Funciones para imprimir la inforamación de
 #  respuesta.  La vista solo interactua con
 #  el controlador.
 # ___________________________________________________
-
 
 
 # ___________________________________________________
@@ -95,7 +96,7 @@ def main():
 
             if int(inputs[0])==1: #opcion 1
                 'Cargando datos'
-                ejecutar_cargar_datos()
+                catalog = ejecutar_cargar_datos()
 
             elif int(inputs[0])==2: #opcion 2
                 getMoviesbyCompany()
