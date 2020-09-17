@@ -52,7 +52,7 @@ def newCatalog():
     Retorna el catalogo inicializado.
     """
     t1_start = process_time()
-    catalog = {'Movies': None,
+    catalog = {'movies': None,
                'studios': None,
                'Directores': None,
                'Actores': None,
@@ -144,8 +144,6 @@ def size(lst):
     return lt.size(lst)
     
 def getMoviesByCompany(catalog,company_name):
-    print(type(catalog))
-    print(type(company_name))
     movie=mp.get(catalog['studios'], company_name)
     if movie:
         return me.getValue(movie)

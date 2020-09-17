@@ -38,13 +38,14 @@ def loadMovies(catalog, booksfile):
     input_file = csv.DictReader(open(booksfile1,encoding='utf-8-sig'))
     for movie in input_file:
         model.addMovie(catalog, movie)
- 
+    return catalog
 
 def loadData(catalog, detailsfile, castingfile):
     """
     Carga los datos de los archivos en el modelo
     """
-    loadMovies(catalog, detailsfile)
+    
+    catalog=loadMovies(catalog, detailsfile)
     return catalog
 
 def getMoviesByCompany(catalog,company_name):

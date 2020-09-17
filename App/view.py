@@ -39,17 +39,18 @@ operación seleccionada.
 #  Ruta a los archivos
 # ___________________________________________________
 def ejecutar_cargar_datos():
-    ruta_casting="Data/themoviesdb/MoviesCastingRaw-small.csv" 
-    ruta_details="Data/themoviesdb/SmallMoviesDetailsCleaned.csv"
-    Catalog=co.initCatalog()
-    co.loadData(Catalog,ruta_details,ruta_casting)
+    ruta_casting="themoviesdb/MoviesCastingRaw-small.csv" 
+    ruta_details="themoviesdb/SmallMoviesDetailsCleaned.csv"
+    catalog=co.initCatalog()
+    co.loadData(catalog,ruta_details,ruta_casting)
+    return catalog 
 
-def getMoviesbyCompany():
-    company_name= input("Escriba el nombre de la compañia que quiere conocer ")
-    movies=co.getMoviesbyCompany(catalog,company_name)
+def ejecutar_getMoviesbyCompany(catalog,company_name):
+    movies=co.getMoviesByCompany(catalog,company_name)
     print("Las peliculas de la compañia de producción son: \b")
-    for movie in range(1,lt.size(movies["movies"])):
-        print(lt.getElement(movies["movies"],movie),"\b")
+    for i in range(1,lt.size(movies["movie"])+1):
+        print(lt.getElement(movies["movie"],i)['title'],"\b")
+        print(lt.getElement(movies["movie"],i)['vote_average'],"\b")
     print('estas tienen una calificación promedio de de',str(movies["average_rating"]) )
     
     
@@ -99,7 +100,8 @@ def main():
                 catalog = ejecutar_cargar_datos()
 
             elif int(inputs[0])==2: #opcion 2
-                getMoviesbyCompany()
+                company_name= input("Escriba el nombre de la compañia que quiere conocer ")
+                ejecutar_getMoviesbyCompany(catalog,company_name)
                 
             elif int(inputs[0])==3: #opcion 3
                 print("0")
