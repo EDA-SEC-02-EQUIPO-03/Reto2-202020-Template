@@ -63,7 +63,7 @@ def loadMovies(catalog, booksfile):
         model.addMovie(catalog, movie)
         genres=movie['genres'].split('|')
         for genre in genres:
-            model.addMovieGenre(cataog, genre, movie)
+            model.addMovieGenre(catalog, genre, movie)
 
  
 
