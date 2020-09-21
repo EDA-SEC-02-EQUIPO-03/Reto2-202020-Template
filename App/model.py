@@ -59,11 +59,11 @@ def newCatalog():
                'Pais': None}
 
     catalog['movies'] = lt.newList('SINGLE_LINKED', compareMovieIds)
-    catalog['studios'] = mp.newMap(200,
+    catalog['studios'] = mp.newMap(1000,
                                    maptype='CHAINING',
                                    loadfactor=0.4,
-                                   comparefunction=compareAuthorsStudiosByName)
-    catalog['Directores'] = mp.newMap(200,
+                                   comparefunction=compareStudiosByName)
+    catalog['Directores'] = mp.newMap(1000,
                                    maptype='CHAINING',
                                    loadfactor=0.4,
                                    comparefunction=compareAuthorsByName)
@@ -74,8 +74,8 @@ def newCatalog():
     catalog['Generos'] = mp.newMap(1000,
                                   maptype='CHAINING',
                                   loadfactor=0.7,
-                                  comparefunction=compareTagIds)
-    catalog['Pais'] = mp.newMap(500,
+                                  comparefunction=compareGenresbyName)
+    catalog['Pais'] = mp.newMap(1000,
                                  maptype='CHAINING',
                                  loadfactor=0.7,
                                  comparefunction=compareMapYear)
@@ -111,6 +111,15 @@ def newStudio(name):
     studio['movie'] = lt.newList('ARRAY_LINKED', compareAuthorsStudiosByName)
     return studio
 
+def newGenre(name):
+    """
+    Crea una nueva estructura para modelar los libros de un autor
+    y su promedio de ratings
+    """
+    genre = {'name': "", "movie": None,  "average_rating": 0}
+    genre['name'] = name
+    genre['movie'] = lt.newList('ARRAY_LINKED', compareAuthorsStudiosByName)
+    return genre
 
 def addMovieStudio(catalog, studioname, movie):
     """
@@ -135,11 +144,40 @@ def addMovieStudio(catalog, studioname, movie):
     else:
         studio['average_rating'] = (studioavg + float(movieavg)) / 2
 
+def addMovieGenre(catalog, genrename, movie):
+    """
+    Esta función adiciona un libro a la lista de libros publicados
+    por un autor.
+    Cuando se adiciona el libro se actualiza el promedio de dicho autor
+    """
+    genres = catalog['Generos']
+    existgenre = mp.contains(genres, genrename)
+    if existgenre:
+        entry = mp.get(genres, genrename)
+        genre = me.getValue(entry)
+    else:
+        genre = newGenre(genrename)
+        mp.put(genres, genrename, genre)
+    lt.addLast(studio['movie'], movie)
+
+    genreavg = genre['average_rating']
+    movieavg = movie['vote_count']
+    if (studioavg == 0.0):
+        studio['average_rating'] = float(genreavg)
+    else:
+        studio['average_rating'] = (genreavg + float(movieavg)) / 2
+
 # ==============================
 # Funciones de consulta
 # ==============================
 def getMoviesByCompany(catalog,company_name):
-    movie=mp.get(catalog['studios'], companyname)
+    movie=mp.get(catalog['studios'], company_name)
+    if movie:
+        return me.getValue(movie)
+    return None
+
+def getMoviesByGenre(catalog,genre_name)
+    movie=mp.get(catalog['Generos'], genre_name)
     if movie:
         return me.getValue(movie)
     return None
@@ -176,7 +214,7 @@ def compareMovieIds(id1, id2):
         return -1
 
 
-def compareAuthorsStudiosByName(keyname, studio):
+def compareStudiosByName(keyname, studio):
     """
     Compara dos nombres de autor. El primero es una cadena
     y el segundo un entry de un map
@@ -214,14 +252,14 @@ def compareTagNames(name, tag):
         return -1
 
 
-def compareTagIds(id, tag):
-    tagentry = me.getKey(tag)
-    if (int(id) == int(tagentry)):
+def compareGenresbyName(keyname, genre):
+    genreentry = me.getKey(genre)
+    if (keyname == genreentry):
         return 0
-    elif (int(id) > int(tagentry)):
+    elif (keyname > genreentry):
         return 1
     else:
-        return 0
+        return -1
 
 
 def compareMapYear(id, tag):

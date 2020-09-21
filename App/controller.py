@@ -61,6 +61,10 @@ def loadMovies(catalog, booksfile):
     input_file = csv.DictReader(open(booksfile1,encoding='utf-8-sig'))
     for movie in input_file:
         model.addMovie(catalog, movie)
+        genres=movie['genres'].split('|')
+        for genre in genres:
+            model.addMovieGenre(cataog, genre, movie)
+
  
 
 def loadData(catalog, detailsfile, castingfile):
