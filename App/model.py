@@ -24,7 +24,7 @@ from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
 assert config
-
+from time import process_time 
 """
 En este archivo definimos los TADs que vamos a usar,
 es decir contiene los modelos con los datos en memoria
@@ -32,7 +32,7 @@ es decir contiene los modelos con los datos en memoria
 """
 
 # -----------------------------------------------------
-# API del TAD Catalogo de Libros
+# API del TAD Catalogo de Peliculas
 # -----------------------------------------------------
 def movieList(datastructure,cmpfunction):
     lst=lt.newList(datastructure,cmpfunction)
@@ -51,13 +51,14 @@ def newCatalog():
 
     Retorna el catalogo inicializado.
     """
-    catalog = {'Movies': None,
+    t1_start = process_time()
+    catalog = {'movies': None,
                'studios': None,
                'Directores': None,
                'Actores': None,
                'Generos': None,
                'Pais': None}
-
+    #'CHAINING' 'PROBING'
     catalog['movies'] = lt.newList('SINGLE_LINKED', compareMovieIds)
     catalog['studios'] = mp.newMap(1000,
                                    maptype='CHAINING',
@@ -65,11 +66,11 @@ def newCatalog():
                                    comparefunction=compareStudiosByName)
     catalog['Directores'] = mp.newMap(1000,
                                    maptype='CHAINING',
-                                   loadfactor=0.4,
+                                   loadfactor=2,
                                    comparefunction=compareAuthorsByName)
     catalog['Actores'] = mp.newMap(1000,
                                 maptype='CHAINING',
-                                loadfactor=0.7,
+                                loadfactor=2,
                                 comparefunction=compareTagNames)
     catalog['Generos'] = mp.newMap(1000,
                                   maptype='CHAINING',
@@ -77,9 +78,10 @@ def newCatalog():
                                   comparefunction=compareGenresbyName)
     catalog['Pais'] = mp.newMap(1000,
                                  maptype='CHAINING',
-                                 loadfactor=0.7,
+                                 loadfactor=2,
                                  comparefunction=compareMapYear)
-
+    t1_stop = process_time() 
+    print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
     return catalog
 
 
@@ -99,7 +101,6 @@ def addMovie(catalog, movie):
     studioname=movie['production_companies']
  
     addMovieStudio(catalog, studioname,movie)
-
 
 def newStudio(name):
     """
@@ -188,9 +189,11 @@ def getKey(mapa,key):
 def size(lst):
     return lt.size(lst)
     
-def getmovie(lst,pos):
-    movie=lt.getElement(lst,pos)
-    return movie 
+def getMoviesByCompany(catalog,company_name):
+    movie=mp.get(catalog['studios'], company_name)
+    if movie:
+        return me.getValue(movie)
+
     
 def getlastmovie(lst):
     movie=lt.lastElement(lst)

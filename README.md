@@ -29,4 +29,8 @@ Este directorio contiene todo el código de base que se entrega para el funciona
 
 -Test
 Este directorio contiene las pruebas realizadas a los TADs, Estructuras de Datos y Algoritmos.
+*   Integrantes:
+    Daniel Alejandro Parra Lara 2018216679 da.parral
+    Melissa Contreras Rojas 202011876 m.contrerasr
+    David Andres Sanchez Umbarila 202013594 d.sanchezu
 
