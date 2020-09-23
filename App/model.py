@@ -85,8 +85,6 @@ def newCatalog():
     return catalog
 
 # Funciones para agregar informacion al catalogo
-def addmovie(lst,movie):
-    lt.addLast(lst,movie)
 
 def add_solo_movie(catalog, movie):
     lt.addLast(catalog['movies'], movie)
@@ -109,6 +107,17 @@ def addMovie_content(catalog, movie):
     genres=movie['genres'].split('|')
     for genre in genres:
         addMovieGenre(catalog, genre, movie)
+
+    actorname1=casting['actor1_name']
+    actorname2=casting['actor2_name']
+    actorname3=casting['actor3_name']
+    actorname4=casting['actor4_name']
+    actorname5=casting['actor5_name']
+    addMovieActor(catalog,actorname1,movie)
+    addMovieActor(catalog,actorname2,movie)
+    addMovieActor(catalog,actorname3,movie)
+    addMovieActor(catalog,actorname4,movie)
+    addMovieActor(catalog,actorname5,movie)
     return catalog
 
 def newStudio(name):
@@ -142,6 +151,12 @@ def newPay(name):
     Pay['movie'] = lt.newList('ARRAY_LINKED', comparePaysbyName)
     
     return Pay
+    
+def newActor(name):
+    actor={'name': "", "movie": None,"number_movies":0 , "average_rating": 0}
+    actor['name'] = name
+    actor['movie'] = lt.newList('ARRAY_LIST', compareAuthorsStudiosByName)
+    return actor
 
 def addMovieStudio(catalog, studioname, movie):
     """
@@ -150,8 +165,8 @@ def addMovieStudio(catalog, studioname, movie):
     Cuando se adiciona el libro se actualiza el promedio de dicho autor
     """
     studios = catalog['studios']
-    existauthor = mp.contains(studios, studioname)
-    if existauthor:
+    existstudio = mp.contains(studios, studioname)
+    if existstudio:
         entry = mp.get(studios, studioname)
         studio = me.getValue(entry)
     else:
@@ -188,6 +203,28 @@ def addMovieGenre(catalog, genrename, movie):
         genre['average_rating'] = float(movieavg)
     else:
         genre['average_rating'] = (genreavg + float(movieavg)) / 2
+
+def addMovieActor(catalog, actorname, movie):
+
+    actors=catalog['Actores']
+    existactor=mp.contains(actors,actoradename)
+    if existactor:
+        entry = mp.get(actors,actorname)
+        Actor= me.getValue(entry)
+    else:
+        Actor=newActor(actorname)
+        mp.put(actors,actorname,Actor)
+    lt.addLast(actors['movie'])
+
+    actoravg = Actor['average_rating']
+    movieavg = movie['vote_average']
+    numbermov= Actor['number_movies']
+    if (actoravg == 0.0):
+        Actor['average_rating'] = float(movieavg)
+    else:
+        Actor['average_rating'] = ((studioavg*numbermov) + float(movieavg)) / (numbermov+1)
+    Actor['number_movies']+=1
+
 
 def addMoviePay(catalog, Payname, movie):
     """
@@ -227,6 +264,12 @@ def getMoviesByGenre(catalog,genre_name):
         return me.getValue(movie)
     return None
 
+    def getMoviesByActor(catalog,actor_name):
+    movie=mp.get(catalog['Actores'], company_name)
+    if movie:
+        return me.getValue(movie)
+    return None
+
 def getMoviesByPays(catalog,Pay_name):
     movie=mp.get(catalog['Pais'], Pay_name)
     if movie:
@@ -247,6 +290,11 @@ def getMoviesByCompany(catalog,company_name):
 def addLast(lst, element):
     return lt.addLast(lst, element)
 
+def getMoviesByActor(catalog,actor_name):
+    movie=mp.get(catalog['Actores'], company_name)
+    if movie:
+        return me.getValue(movie)
+    
 def getlastmovie(lst):
     movie=lt.lastElement(lst)
     return movie
