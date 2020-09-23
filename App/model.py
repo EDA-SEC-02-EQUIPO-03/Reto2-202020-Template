@@ -88,29 +88,36 @@ def newCatalog():
 # Funciones para agregar informacion al catalogo
 
 
-def addMovie(catalog, movie,casting):
+
+
+def addMovie_content(catalog, movie):
     """
     Esta funcion adiciona un libro a la lista de libros,
     adicionalmente lo guarda en un Map usando como llave su Id.
     Finalmente crea una entrada en el Map de años, para indicar que este
     libro fue publicaco en ese año.
     """
-    lt.addLast(catalog['movies'], movie)
     
     studioname=movie['production_companies']
-    actorname1=casting['actor1_name']
-    actorname2=casting['actor2_name']
-    actorname3=casting['actor3_name']
-    actorname4=casting['actor4_name']
-    actorname5=casting['actor5_name']
-    
-    addMovieStudio(catalog, studioname,movie)
+    addMovieStudio(catalog, studioname, movie)
 
+    Payname=movie['production_countries']
+    addMoviePay(catalog, Payname, movie)
+
+    genres=movie['genres'].split('|')
+    for genre in genres:
+        addMovieGenre(catalog, genre, movie)
+    actorname1=movie['actor1_name']
+    actorname2=movie['actor2_name']
+    actorname3=movie['actor3_name']
+    actorname4=movie['actor4_name']
+    actorname5=movie['actor5_name']
     addMovieActor(catalog,actorname1,movie)
     addMovieActor(catalog,actorname2,movie)
     addMovieActor(catalog,actorname3,movie)
     addMovieActor(catalog,actorname4,movie)
     addMovieActor(catalog,actorname5,movie)
+    return catalog
 
 def newStudio(name):
     """
@@ -136,7 +143,7 @@ def addMovieStudio(catalog, studioname, movie):
     """
     studios = catalog['studios']
     existstudio = mp.contains(studios, studioname)
-    if existstudio
+    if existstudio:
         entry = mp.get(studios, studioname)
         studio = me.getValue(entry)
     else:
