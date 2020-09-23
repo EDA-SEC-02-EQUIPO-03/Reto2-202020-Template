@@ -151,7 +151,7 @@ def newPay(name):
     Pay['movie'] = lt.newList('ARRAY_LINKED', comparePaysbyName)
     
     return Pay
-    
+
 def newActor(name):
     actor={'name': "", "movie": None,"number_movies":0 , "average_rating": 0}
     actor['name'] = name
@@ -264,7 +264,7 @@ def getMoviesByGenre(catalog,genre_name):
         return me.getValue(movie)
     return None
 
-    def getMoviesByActor(catalog,actor_name):
+def getMoviesByActor(catalog,actor_name):
     movie=mp.get(catalog['Actores'], company_name)
     if movie:
         return me.getValue(movie)

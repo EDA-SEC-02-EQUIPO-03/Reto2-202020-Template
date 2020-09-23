@@ -60,8 +60,8 @@ def loadMovies(catalog, booksfile, castingfile):
     t1_start = process_time()
     booksfile1 = cf.data_dir + booksfile
     booksfile2 = cf.data_dir + castingfile
-    input_file = csv.DictReader(open(booksfile1,encoding='utf-8-sig'))
-    input_file2 = csv.DictReader(open(booksfile2,encoding='utf-8-sig'))
+    input_file = csv.DictReader(open(booksfile1,encoding='utf-8'))
+    input_file2 = csv.DictReader(open(booksfile2,encoding='utf-8'))
     j=1 
 
     for movie in input_file:
