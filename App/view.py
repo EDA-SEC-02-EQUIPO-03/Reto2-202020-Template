@@ -39,11 +39,22 @@ operación seleccionada.
 #  Ruta a los archivos
 # ___________________________________________________
 def ejecutar_cargar_datos():
-    ruta_casting="themoviesdb/AllMoviesCastingRaw.csv" 
+    ruta_casting="themoviesdb/AllMoviesCastingRaw.csv"
+    #"themoviesdb/AllMoviesCastingRaw.csv"
+    #"themoviesdb/MoviesCastingRaw-small.csv" 
     ruta_details="themoviesdb/AllMoviesDetailsCleaned.csv"
+    #"themoviesdb/AllMoviesDetailsCleaned.csv"
+    #"themoviesdb/SmallMoviesDetailsCleaned.csv"
     catalog=co.initCatalog()
     co.loadData(catalog,ruta_details,ruta_casting)
     return catalog 
+#fin
+# ___________________________________________________
+
+#  Funciones para imprimir la inforamación de
+#  respuesta.  La vista solo interactua con
+#  el controlador.
+# ___________________________________________________
 
 def ejecutar_getMoviesbyCompany(catalog,company_name):
     movies=co.getMoviesByCompany(catalog,company_name)
@@ -52,33 +63,7 @@ def ejecutar_getMoviesbyCompany(catalog,company_name):
         print(lt.getElement(movies["movie"],i)['title'],"\b")
         print(lt.getElement(movies["movie"],i)['vote_average'],"\b")
     print('estas tienen una calificación promedio de de',str(movies["average_rating"]) )
-    
-def ejecutar_getMoviesbyPay(catalog,Pay_name):
-    movies=co.getMoviesByPay(catalog,Pay_name)
-    print("Las peliculas de la compañia de producción son: \b")
-    
-    for i in range(lt.size(movies["movie"])):
-        Elemento=lt.getElement(movies["movie"],i)
-        if Elemento['release_date']=="":
-            año="No Especificado"
-        else:
-            año=str(Elemento['release_date'].replace('-','/').split('/')[2])
-        print(Elemento['title'],'______',año)
-        print('')
-        
-    print('estas tienen una calificación promedio de de',str(movies["average_rating"]))
-#fin
 
-
-
-# ___________________________________________________
-
-#  Funciones para imprimir la inforamación de
-#  respuesta.  La vista solo interactua con
-#  el controlador.
-# ___________________________________________________
-
-    return 0 
 def ejecutar_Conocer_a_un_director():
 
     return 0 
@@ -93,8 +78,19 @@ def ejecutar_Entender_un_género_cinematográfico(catalog, genre_name):
         print(lt.getElement(movies["movie"],i)['title'],"\b",lt.getElement(movies["movie"],i)['vote_count'])
     print('estas tienen una Votacion promedio de',str(movies["vote_count"]) )
 
-def ejecutar_Encontrar_películas_por_país():
-    return 0
+def ejecutar_getMoviesbyPay(catalog,Pay_name):
+    movies=co.getMoviesByPay(catalog,Pay_name)
+    print("Las peliculas de la compañia de producción son: \b")
+    for i in range(lt.size(movies["movie"])):
+        Elemento=lt.getElement(movies["movie"],i)
+        if Elemento['release_date']=="":
+            año="No Especificado"
+        else:
+            año=str(Elemento['release_date'].replace('-','/').split('/')[2])
+        print(Elemento['title'],'______',año,'______',Elemento['director_name'])
+        print('')
+        
+    print('estas tienen una calificación promedio de de',str(movies["average_rating"]))
 
 # ___________________________________________________
 #  Menu principal
@@ -111,6 +107,7 @@ def printMenu():
     print("5- Entender un género cinematográfico")
     print("6- Encontrar películas por país")
     print("0- Salir")
+    
 def main():
     """
     Método principal del programa, se encarga de manejar todos los metodos adicionales creados

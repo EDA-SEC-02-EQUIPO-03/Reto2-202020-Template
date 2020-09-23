@@ -59,7 +59,7 @@ def newCatalog():
                'Generos': None,
                'Pais': None}
     #'CHAINING' 'PROBING'
-    catalog['movies'] = lt.newList('SINGLE_LINKED', compareMovieIds)
+    catalog['movies'] = lt.newList('ARRAY_LIST', compareMovieIds)
     catalog['studios'] = mp.newMap(1000,
                                    maptype='CHAINING',
                                    loadfactor=0.4,
@@ -84,25 +84,32 @@ def newCatalog():
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
     return catalog
 
-
 # Funciones para agregar informacion al catalogo
 def addmovie(lst,movie):
     lt.addLast(lst,movie)
 
-def addMovie(catalog, movie):
+def add_solo_movie(catalog, movie):
+    lt.addLast(catalog['movies'], movie)
+    return catalog
+
+def addMovie_content(catalog, movie):
     """
     Esta funcion adiciona un libro a la lista de libros,
     adicionalmente lo guarda en un Map usando como llave su Id.
     Finalmente crea una entrada en el Map de años, para indicar que este
     libro fue publicaco en ese año.
     """
-    lt.addLast(catalog['movies'], movie)
     
     studioname=movie['production_companies']
     addMovieStudio(catalog, studioname, movie)
 
     Payname=movie['production_countries']
     addMoviePay(catalog, Payname, movie)
+
+    genres=movie['genres'].split('|')
+    for genre in genres:
+        addMovieGenre(catalog, genre, movie)
+    return catalog
 
 def newStudio(name):
     """
@@ -225,27 +232,34 @@ def getMoviesByPays(catalog,Pay_name):
     if movie:
         return me.getValue(movie)
     return None
+
 def getKey(mapa,key):
     return mp.get(mapa,key)
 
 def size(lst):
     return lt.size(lst)
-    
+
 def getMoviesByCompany(catalog,company_name):
     movie=mp.get(catalog['studios'], company_name)
     if movie:
         return me.getValue(movie)
 
-    
+def addLast(lst, element):
+    return lt.addLast(lst, element)
+
 def getlastmovie(lst):
     movie=lt.lastElement(lst)
     return movie
 
+def getmovie(lst,pos):
+    return lt.getElement(lst, pos)
+
+def insertelement(lst, element, pos):
+    return lt.insertElement(lst, element, pos)
+
 # ==============================
 # Funciones de Comparacion
 # ==============================
-
-
 
 def compareMovieIds(id1, id2):
     """
@@ -257,7 +271,6 @@ def compareMovieIds(id1, id2):
         return 1
     else:
         return -1
-
 
 def compareStudiosByName(keyname, studio):
     """
@@ -272,7 +285,6 @@ def compareStudiosByName(keyname, studio):
     else:
         return -1
 
-
 def compareAuthorsByName(keyname, author):
     """
     Compara dos nombres de autor. El primero es una cadena
@@ -286,7 +298,6 @@ def compareAuthorsByName(keyname, author):
     else:
         return -1
 
-
 def compareTagNames(name, tag):
     tagentry = me.getKey(tag)
     if (name == tagentry):
@@ -295,7 +306,6 @@ def compareTagNames(name, tag):
         return 1
     else:
         return -1
-
 
 def compareGenresbyName(keyname, genre):
     genreentry = me.getKey(genre)
@@ -306,7 +316,6 @@ def compareGenresbyName(keyname, genre):
     else:
         return -1
 
-
 def compareMapYear(id, tag):
     tagentry = me.getKey(tag)
     if (id == tagentry):
@@ -315,7 +324,6 @@ def compareMapYear(id, tag):
         return 1
     else:
         return 0
-
 
 def comparePaysbyName(keyname, Pay):
     Payentry = me.getKey(Pay)

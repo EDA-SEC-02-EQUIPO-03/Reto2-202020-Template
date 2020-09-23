@@ -50,7 +50,7 @@ def initCatalog():
 #  de datos en los modelos
 # ___________________________________________________
 
-def loadMovies(catalog, booksfile):
+def loadMovies(catalog, booksfile, castingfile):
     """
     Carga cada una de las lineas del archivo de libros.
     - Se agrega cada libro al catalogo de libros
@@ -59,28 +59,34 @@ def loadMovies(catalog, booksfile):
     """
     t1_start = process_time()
     booksfile1 = cf.data_dir + booksfile
+    booksfile2 = cf.data_dir + castingfile
     input_file = csv.DictReader(open(booksfile1,encoding='utf-8-sig'))
-    i = 0
-    p = 0
-    for movie in input_file:
-        model.addMovie(catalog, movie)
-        genres=movie['genres'].split('|')
-        for genre in genres:
-            model.addMovieGenre(catalog, genre, movie)
-        if i%3290 == 0:
-            print (" " + str(p) + "%" + " completado", end="\r")
-            p+=1
-        i+=1
-    t1_stop = process_time() 
-    print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
- 
+    input_file2 = csv.DictReader(open(booksfile2,encoding='utf-8-sig'))
+    j=1 
 
+    for movie in input_file:
+        catalog=model.add_solo_movie(catalog,movie)
+    lst=catalog['movies'] 
+    for casting in input_file2:
+        if casting["id"] == model.getmovie(lst,j)["id"]:
+                for column in casting:
+                    if column != "id":
+                        model.getmovie(lst,j)[column]=casting[column]
+        j+=1
+        
+    for full_movie in lst['elements']:
+        model.addMovie_content(catalog,full_movie)
+  
+    t1_stop = process_time()    
+    print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
+    return catalog
+ 
 def loadData(catalog, detailsfile, castingfile):
     """
     Carga los datos de los archivos en el modelo
     """
     
-    catalog=loadMovies(catalog, detailsfile)
+    catalog=loadMovies(catalog, detailsfile, castingfile)
     return catalog
 
 def getMoviesByCompany(catalog,company_name):
