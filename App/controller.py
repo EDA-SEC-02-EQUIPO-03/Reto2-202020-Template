@@ -26,7 +26,7 @@ def initCatalog():
 #  de datos en los modelos
 # ___________________________________________________
 
-def loadMovies(catalog, booksfile):
+def loadMovies(catalog, detailsfile,castingfile):
     """
     Carga cada una de las lineas del archivo de libros.
     - Se agrega cada libro al catalogo de libros
@@ -34,8 +34,10 @@ def loadMovies(catalog, booksfile):
       autor, se crea una lista con sus libros
     """
   
-    booksfile1 = cf.data_dir + booksfile
-    input_file = csv.DictReader(open(booksfile1,encoding='utf-8-sig'))
+    detailsfile1 = cf.data_dir + detailsfile
+    castingfile1 = cf.data_dir + castingfile
+    input_file_1 = csv.DictReader(open(detailsfile1,encoding='utf-8-sig'))
+    inputfile_2 = csv.DictReader(open(detailsfile1,encoding='utf-8-sig'))
     for movie in input_file:
         model.addMovie(catalog, movie)
     return catalog
@@ -45,7 +47,7 @@ def loadData(catalog, detailsfile, castingfile):
     Carga los datos de los archivos en el modelo
     """
     
-    catalog=loadMovies(catalog, detailsfile)
+    catalog=loadMovies(catalog, detailsfile, castingfile)
     return catalog
 
 def getMoviesByCompany(catalog,company_name):

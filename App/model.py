@@ -88,7 +88,7 @@ def newCatalog():
 # Funciones para agregar informacion al catalogo
 
 
-def addMovie(catalog, movie):
+def addMovie(catalog, movie,casting):
     """
     Esta funcion adiciona un libro a la lista de libros,
     adicionalmente lo guarda en un Map usando como llave su Id.
@@ -98,9 +98,19 @@ def addMovie(catalog, movie):
     lt.addLast(catalog['movies'], movie)
     
     studioname=movie['production_companies']
- 
+    actorname1=casting['actor1_name']
+    actorname2=casting['actor2_name']
+    actorname3=casting['actor3_name']
+    actorname4=casting['actor4_name']
+    actorname5=casting['actor5_name']
+    
     addMovieStudio(catalog, studioname,movie)
-    addMovieActor(catalog,actorname,movie)
+
+    addMovieActor(catalog,actorname1,movie)
+    addMovieActor(catalog,actorname2,movie)
+    addMovieActor(catalog,actorname3,movie)
+    addMovieActor(catalog,actorname4,movie)
+    addMovieActor(catalog,actorname5,movie)
 
 def newStudio(name):
     """
