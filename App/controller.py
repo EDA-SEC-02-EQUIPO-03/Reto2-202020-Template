@@ -23,6 +23,7 @@
 import config as cf
 from App import model
 import csv
+from time import process_time
 
 
 """
@@ -56,15 +57,22 @@ def loadMovies(catalog, booksfile):
     - Por cada libro se encuentran sus autores y por cada
       autor, se crea una lista con sus libros
     """
-  
+    t1_start = process_time()
     booksfile1 = cf.data_dir + booksfile
     input_file = csv.DictReader(open(booksfile1,encoding='utf-8-sig'))
+    i = 0
+    p = 0
     for movie in input_file:
         model.addMovie(catalog, movie)
         genres=movie['genres'].split('|')
         for genre in genres:
             model.addMovieGenre(catalog, genre, movie)
-
+        if i%3290 == 0:
+            print (" " + str(p) + "%" + " completado", end="\r")
+            p+=1
+        i+=1
+    t1_stop = process_time() 
+    print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
  
 
 def loadData(catalog, detailsfile, castingfile):
@@ -77,6 +85,12 @@ def loadData(catalog, detailsfile, castingfile):
 
 def getMoviesByCompany(catalog,company_name):
     return model.getMoviesByCompany(catalog,company_name)
+
+def getMoviesByGenre(catalog, genre_name):
+    return model.getMoviesByGenre(catalog, genre_name)
+
+def getMoviesByPay(catalog, Pay_name):
+    return model.getMoviesByPays(catalog, Pay_name)
 
 def getlastmovie(lst):
     return model.getlastmovie(lst)

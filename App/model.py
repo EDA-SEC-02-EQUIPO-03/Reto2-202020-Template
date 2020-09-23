@@ -99,8 +99,10 @@ def addMovie(catalog, movie):
     lt.addLast(catalog['movies'], movie)
     
     studioname=movie['production_companies']
- 
-    addMovieStudio(catalog, studioname,movie)
+    addMovieStudio(catalog, studioname, movie)
+
+    Payname=movie['production_countries']
+    addMoviePay(catalog, Payname, movie)
 
 def newStudio(name):
     """
@@ -109,7 +111,7 @@ def newStudio(name):
     """
     studio = {'name': "", "movie": None,  "average_rating": 0}
     studio['name'] = name
-    studio['movie'] = lt.newList('ARRAY_LINKED', compareAuthorsStudiosByName)
+    studio['movie'] = lt.newList('ARRAY_LINKED', compareStudiosByName)
     return studio
 
 def newGenre(name):
@@ -117,10 +119,22 @@ def newGenre(name):
     Crea una nueva estructura para modelar los libros de un autor
     y su promedio de ratings
     """
-    genre = {'name': "", "movie": None,  "average_rating": 0}
+    genre = {'name': "", "movie": None,  "average_rating":0}
     genre['name'] = name
-    genre['movie'] = lt.newList('ARRAY_LINKED', compareAuthorsStudiosByName)
+    genre['movie'] = lt.newList('ARRAY_LINKED', compareGenresbyName)
+    
     return genre
+
+def newPay(name):
+    """
+    Crea una nueva estructura para modelar los libros de un autor
+    y su promedio de ratings
+    """
+    Pay = {'name': "", "movie": None,  "average_rating":0}
+    Pay['name'] = name
+    Pay['movie'] = lt.newList('ARRAY_LINKED', comparePaysbyName)
+    
+    return Pay
 
 def addMovieStudio(catalog, studioname, movie):
     """
@@ -141,7 +155,7 @@ def addMovieStudio(catalog, studioname, movie):
     studioavg = studio['average_rating']
     movieavg = movie['vote_average']
     if (studioavg == 0.0):
-        studio['average_rating'] = float(studioavg)
+        studio['average_rating'] = float(movieavg)
     else:
         studio['average_rating'] = (studioavg + float(movieavg)) / 2
 
@@ -159,14 +173,37 @@ def addMovieGenre(catalog, genrename, movie):
     else:
         genre = newGenre(genrename)
         mp.put(genres, genrename, genre)
-    lt.addLast(studio['movie'], movie)
+    lt.addLast(genre['movie'], movie)
 
     genreavg = genre['average_rating']
     movieavg = movie['vote_count']
-    if (studioavg == 0.0):
-        studio['average_rating'] = float(genreavg)
+    if (genreavg == 0.0):
+        genre['average_rating'] = float(movieavg)
     else:
-        studio['average_rating'] = (genreavg + float(movieavg)) / 2
+        genre['average_rating'] = (genreavg + float(movieavg)) / 2
+
+def addMoviePay(catalog, Payname, movie):
+    """
+    Esta función adiciona un libro a la lista de libros publicados
+    por un autor.
+    Cuando se adiciona el libro se actualiza el promedio de dicho autor
+    """
+    Pays = catalog['Pais']
+    existpay = mp.contains(Pays, Payname)
+    if existpay:
+        entry = mp.get(Pays, Payname)
+        pay = me.getValue(entry)
+    else:
+        pay = newPay(Payname)
+        mp.put(Pays, Payname, pay)
+    lt.addLast(pay['movie'], movie)
+
+    Payavg = pay['average_rating']
+    movieavg = movie['vote_count']
+    if (Payavg == 0.0):
+        pay['average_rating'] = float(movieavg)
+    else:
+        pay['average_rating'] = (Payavg + float(movieavg)) / 2
 
 # ==============================
 # Funciones de consulta
@@ -177,12 +214,17 @@ def getMoviesByCompany(catalog,company_name):
         return me.getValue(movie)
     return None
 
-def getMoviesByGenre(catalog,genre_name)
+def getMoviesByGenre(catalog,genre_name):
     movie=mp.get(catalog['Generos'], genre_name)
     if movie:
         return me.getValue(movie)
     return None
 
+def getMoviesByPays(catalog,Pay_name):
+    movie=mp.get(catalog['Pais'], Pay_name)
+    if movie:
+        return me.getValue(movie)
+    return None
 def getKey(mapa,key):
     return mp.get(mapa,key)
 
@@ -275,13 +317,14 @@ def compareMapYear(id, tag):
         return 0
 
 
-def compareYears(year1, year2):
-    if (int(year1) == int(year2)):
+def comparePaysbyName(keyname, Pay):
+    Payentry = me.getKey(Pay)
+    if (keyname == Payentry):
         return 0
-    elif (int(year1) > int(year2)):
+    elif (keyname > Payentry):
         return 1
     else:
-        return 0
+        return -1
 
 
 
