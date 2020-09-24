@@ -60,19 +60,19 @@ def newCatalog():
                'Pais': None}
     #'CHAINING' 'PROBING'
     catalog['movies'] = lt.newList('ARRAY_LIST', compareMovieIds)
-    catalog['studios'] = mp.newMap(1000,
+    catalog['studios'] = mp.newMap(10000,
                                    maptype='CHAINING',
                                    loadfactor=0.4,
                                    comparefunction=compareStudiosByName)
-    catalog['Directores'] = mp.newMap(1000,
+    catalog['Directores'] = mp.newMap(10000,
                                    maptype='CHAINING',
                                    loadfactor=2,
                                    comparefunction=compareAuthorsByName)
-    catalog['Actores'] = mp.newMap(1000,
+    catalog['Actores'] = mp.newMap(100000,
                                 maptype='CHAINING',
                                 loadfactor=2,
                                 comparefunction=compareTagNames)
-    catalog['Generos'] = mp.newMap(1000,
+    catalog['Generos'] = mp.newMap(10000,
                                   maptype='CHAINING',
                                   loadfactor=0.7,
                                   comparefunction=compareGenresbyName)
@@ -108,11 +108,11 @@ def addMovie_content(catalog, movie):
     for genre in genres:
         addMovieGenre(catalog, genre, movie)
 
-    actorname1=casting['actor1_name']
-    actorname2=casting['actor2_name']
-    actorname3=casting['actor3_name']
-    actorname4=casting['actor4_name']
-    actorname5=casting['actor5_name']
+    actorname1=movie['actor1_name']
+    actorname2=movie['actor2_name']
+    actorname3=movie['actor3_name']
+    actorname4=movie['actor4_name']
+    actorname5=movie['actor5_name']
     addMovieActor(catalog,actorname1,movie)
     addMovieActor(catalog,actorname2,movie)
     addMovieActor(catalog,actorname3,movie)
@@ -155,7 +155,7 @@ def newPay(name):
 def newActor(name):
     actor={'name': "", "movie": None,"number_movies":0 , "average_rating": 0}
     actor['name'] = name
-    actor['movie'] = lt.newList('ARRAY_LIST', compareAuthorsStudiosByName)
+    actor['movie'] = lt.newList('ARRAY_LIST',compareActorsByName)
     return actor
 
 def addMovieStudio(catalog, studioname, movie):
@@ -207,14 +207,14 @@ def addMovieGenre(catalog, genrename, movie):
 def addMovieActor(catalog, actorname, movie):
 
     actors=catalog['Actores']
-    existactor=mp.contains(actors,actoradename)
+    existactor=mp.contains(actors,actorname)
     if existactor:
         entry = mp.get(actors,actorname)
         Actor= me.getValue(entry)
     else:
         Actor=newActor(actorname)
         mp.put(actors,actorname,Actor)
-    lt.addLast(actors['movie'])
+    lt.addLast(Actor['movie'],movie)
 
     actoravg = Actor['average_rating']
     movieavg = movie['vote_average']
@@ -222,7 +222,7 @@ def addMovieActor(catalog, actorname, movie):
     if (actoravg == 0.0):
         Actor['average_rating'] = float(movieavg)
     else:
-        Actor['average_rating'] = ((studioavg*numbermov) + float(movieavg)) / (numbermov+1)
+        Actor['average_rating'] = ((actoravg*numbermov) + float(movieavg)) / (numbermov+1)
     Actor['number_movies']+=1
 
 
@@ -329,6 +329,19 @@ def compareStudiosByName(keyname, studio):
     if (keyname == studioentry):
         return 0
     elif (keyname > studioentry):
+        return 1
+    else:
+        return -1
+
+def compareActorsByName(keyname, actor):
+    """
+    Compara dos nombres de autor. El primero es una cadena
+    y el segundo un entry de un map
+    """
+    actorentry = me.getKey(actor)
+    if (keyname == actorentry):
+        return 0
+    elif (keyname > actorentry):
         return 1
     else:
         return -1

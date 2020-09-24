@@ -60,14 +60,18 @@ def loadMovies(catalog, booksfile, castingfile):
     t1_start = process_time()
     booksfile1 = cf.data_dir + booksfile
     booksfile2 = cf.data_dir + castingfile
-    input_file = csv.DictReader(open(booksfile1,encoding='utf-8'))
-    input_file2 = csv.DictReader(open(booksfile2,encoding='utf-8'))
+    dialect = csv.excel()
+    dialect.delimiter=";"
+    
+    input_file = csv.DictReader(open(booksfile1,encoding='utf-8'),dialect=dialect)
+    input_file2 = csv.DictReader(open(booksfile2,encoding='utf-8'),dialect=dialect)
     j=1 
 
     for movie in input_file:
         catalog=model.add_solo_movie(catalog,movie)
     lst=catalog['movies'] 
     for casting in input_file2:
+        
         if casting["id"] == model.getmovie(lst,j)["id"]:
                 for column in casting:
                     if column != "id":
