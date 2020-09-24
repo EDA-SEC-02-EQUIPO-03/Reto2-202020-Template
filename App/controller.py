@@ -104,6 +104,10 @@ def getMoviesByPay(catalog, Pay_name):
 
 def getMoviesByActor(catalog, actor_name):
     return model.getMoviesByActor(catalog, actor_name)
+
+def  getMoviesByDirector(catalog,director):
+    return model.getMoviesByDirector(catalog,director)
+    
 def getlastmovie(lst):
     return model.getlastmovie(lst)
 

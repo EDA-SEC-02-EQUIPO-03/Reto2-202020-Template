@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  """
-
+import time
 import sys
 import csv
 import config
@@ -64,13 +64,14 @@ def ejecutar_getMoviesbyCompany(catalog,company_name):
         print(lt.getElement(movies["movie"],i)['title'],"\b")
         print(lt.getElement(movies["movie"],i)['vote_average'],"\b")
     print('estas tienen una calificación promedio de de',str(movies["average_rating"]) )
+    print('La cantidad de peliculas es de',str(lt.size(movies['movie']) ))
 
-def ejecutar_Conocer_a_un_director():
-
-    return 0 
-def ejecutar_Conocer_a_un_actor():
-
-    return 0
+def ejecutar_Conocer_a_un_director(criteria,catalog):
+    direct=co.getMoviesByDirector(catalog,criteria)
+    print("Las peliculas del director ",criteria,"son ",lt.size(direct["movie"])," las cuales se nombraran en el siguiente listado: \n")
+    
+    for k in range(1,lt.size(direct["movie"])+1):
+            print(lt.getElement(direct["movie"],k)['title'],"\b")
 
 def ejecutar_Entender_un_género_cinematográfico(catalog, genre_name):
     movies=co.getMoviesByGenre(catalog,genre_name)
@@ -78,6 +79,7 @@ def ejecutar_Entender_un_género_cinematográfico(catalog, genre_name):
     for i in range(1,lt.size(movies["movie"])+1):
         print(lt.getElement(movies["movie"],i)['title'],"\b",lt.getElement(movies["movie"],i)['vote_count'])
     print('estas tienen una Votacion promedio de',str(movies["vote_count"]) )
+    print('La cantidad de peliculas es de',str(lt.size(movies['movie']) ))
 
 def ejecutar_getMoviesbyPay(catalog,Pay_name):
     movies=co.getMoviesByPay(catalog,Pay_name)
@@ -96,14 +98,16 @@ def ejecutar_getMoviesbyPay(catalog,Pay_name):
 #  respuesta.  La vista solo interactua con
 #  el controlador.
 # ___________________________________________________
-def ejecutar_getMoviesbyActor(catalog,actor_name):
+def ejecutar_Conocer_a_un_actor(catalog,actor_name):
+    t1=time.process_time_ns()
     movies=co.getMoviesByActor(catalog,actor_name)
     print("Las peliculas en las que participa el actor son:\b")
     for i in range(1,lt.size(movies["movie"])+1):
         print(lt.getElement(movies["movie"],i)['title'],"\b")
         
-    print('estas tienen una calificación promedio de de',str(movies["average_rating"]," y son un total de",movies["number_movies"]) )
-
+    print('estas tienen una calificación promedio de ',round(movies["average_rating"],2)," y son un total de",str(movies["number_movies"]) )
+    t2=time.process_time_ns()
+    print('el algoritmo se demora: ',t2-t1)
 # ___________________________________________________
 #  Menu principal
 # ___________________________________________________
@@ -143,10 +147,12 @@ def main():
                 ejecutar_getMoviesbyCompany(catalog,company_name)
                 
             elif int(inputs[0])==3: #opcion 3
-                print("0")
+                criteria=input("Nombre del director que desea conocer: \n")
+                ejecutar_Conocer_a_un_director(criteria,catalog)
+
             elif int(inputs[0])==4: #opcion 4
-                actor_name=input("Escriba el nombre del actor cuyas peliculas quiera conocer")
-                ejecutar_Conocer_a_un_actor(catalog,genre_name)
+                actor_name=input("Escriba el nombre del actor cuyas peliculas quiera conocer ")
+                ejecutar_Conocer_a_un_actor(catalog,actor_name)
                 
             elif int(inputs[0])==5: #opcion 5
                 genre_name=input("Escriba el nombre del Genero que quiere conocer ")

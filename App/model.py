@@ -104,6 +104,9 @@ def addMovie_content(catalog, movie):
     Payname=movie['production_countries']
     addMoviePay(catalog, Payname, movie)
 
+    directo=movie['director_name']
+    addMovieDirector(directo,catalog,movie)
+
     genres=movie['genres'].split('|')
     for genre in genres:
         addMovieGenre(catalog, genre, movie)
@@ -120,6 +123,13 @@ def addMovie_content(catalog, movie):
     addMovieActor(catalog,actorname5,movie)
     return catalog
 
+
+def newDirector(name):
+    direc= {'name': "","movie": None, "average_rating":0}
+    direc['name']=name
+    direc['movie']= lt.newList('ARRAY_LIST', compareAuthorsByName)
+    return direc
+
 def newStudio(name):
     """
     Crea una nueva estructura para modelar los libros de un autor
@@ -127,7 +137,7 @@ def newStudio(name):
     """
     studio = {'name': "", "movie": None,  "average_rating": 0}
     studio['name'] = name
-    studio['movie'] = lt.newList('ARRAY_LINKED', compareStudiosByName)
+    studio['movie'] = lt.newList('ARRAY_LIST', compareStudiosByName)
     return studio
 
 def newGenre(name):
@@ -137,7 +147,7 @@ def newGenre(name):
     """
     genre = {'name': "", "movie": None,  "average_rating":0}
     genre['name'] = name
-    genre['movie'] = lt.newList('ARRAY_LINKED', compareGenresbyName)
+    genre['movie'] = lt.newList('ARRAY_LIST', compareGenresbyName)
     
     return genre
 
@@ -148,7 +158,7 @@ def newPay(name):
     """
     Pay = {'name': "", "movie": None,  "average_rating":0}
     Pay['name'] = name
-    Pay['movie'] = lt.newList('ARRAY_LINKED', comparePaysbyName)
+    Pay['movie'] = lt.newList('ARRAY_LIST', comparePaysbyName)
     
     return Pay
 
@@ -181,6 +191,26 @@ def addMovieStudio(catalog, studioname, movie):
     else:
         studio['average_rating'] = (studioavg + float(movieavg)) / 2
 
+def addMovieDirector(criteria,catalog,movie):
+
+    director= catalog['Directores']
+    existgenre = mp.contains(director, criteria)
+    if existgenre:
+        entry = mp.get(director, criteria)
+        dire = me.getValue(entry)
+    else:
+        dire = newDirector(criteria)
+        mp.put(director, criteria, dire)
+    lt.addLast(dire['movie'], movie)
+
+    direavg= dire['average_rating']
+    movieavg = movie['vote_count']
+    if (direavg== 0):
+            dire['average_rating'] = float(movieavg)
+    else:
+            dire['average_rating'] = (direavg + float(movieavg)) / 2
+    return catalog
+
 def addMovieGenre(catalog, genrename, movie):
     """
     Esta función adiciona un libro a la lista de libros publicados
@@ -203,6 +233,7 @@ def addMovieGenre(catalog, genrename, movie):
         genre['average_rating'] = float(movieavg)
     else:
         genre['average_rating'] = (genreavg + float(movieavg)) / 2
+    return catalog
 
 def addMovieActor(catalog, actorname, movie):
 
@@ -291,7 +322,7 @@ def addLast(lst, element):
     return lt.addLast(lst, element)
 
 def getMoviesByActor(catalog,actor_name):
-    movie=mp.get(catalog['Actores'], company_name)
+    movie=mp.get(catalog['Actores'], actor_name)
     if movie:
         return me.getValue(movie)
     
@@ -301,6 +332,12 @@ def getlastmovie(lst):
 
 def getmovie(lst,pos):
     return lt.getElement(lst, pos)
+
+def getMoviesByDirector(catalog,director):
+    movie=mp.get(catalog['Directores'], director)
+    if movie:
+        return me.getValue(movie)
+    return None
 
 def insertelement(lst, element, pos):
     return lt.insertElement(lst, element, pos)
@@ -395,7 +432,18 @@ def comparePaysbyName(keyname, Pay):
     else:
         return -1
 
-
+def compareDirectorsByName(keyname, director):
+    """
+    Compara dos nombres de autor. El primero es una cadena
+    y el segundo un entry de un map
+    """
+    direentry = me.getKey(director)
+    if (keyname == direentry):
+        return 0
+    elif (keyname > direentry):
+        return 1
+    else:
+        return -1
 
 
 # Funciones para agregar informacion al catalogo
