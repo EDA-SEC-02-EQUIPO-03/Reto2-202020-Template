@@ -69,9 +69,9 @@ def ejecutar_getMoviesbyCompany(catalog,company_name):
 def ejecutar_Conocer_a_un_director(criteria,catalog):
     direct=co.getMoviesByDirector(catalog,criteria)
     print("Las peliculas del director ",criteria,"son ",lt.size(direct["movie"])," las cuales se nombraran en el siguiente listado: \n")
-    
     for k in range(1,lt.size(direct["movie"])+1):
             print(lt.getElement(direct["movie"],k)['title'],"\b")
+    print("Las anteriores tienen un promedio de calificación de: ",direct["average_rating"])
 
 def ejecutar_Entender_un_género_cinematográfico(catalog, genre_name):
     movies=co.getMoviesByGenre(catalog,genre_name)
