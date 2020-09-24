@@ -92,6 +92,17 @@ def ejecutar_getMoviesbyPay(catalog,Pay_name):
         print('')
         
     print('estas tienen una calificación promedio de de',str(movies["average_rating"]))
+#  Funciones para imprimir la inforamación de
+#  respuesta.  La vista solo interactua con
+#  el controlador.
+# ___________________________________________________
+def ejecutar_getMoviesbyActor(catalog,actor_name):
+    movies=co.getMoviesByActor(catalog,actor_name)
+    print("Las peliculas en las que participa el actor son:\b")
+    for i in range(1,lt.size(movies["movie"])+1):
+        print(lt.getElement(movies["movie"],i)['title'],"\b")
+        
+    print('estas tienen una calificación promedio de de',str(movies["average_rating"]," y son un total de",movies["number_movies"]) )
 
 # ___________________________________________________
 #  Menu principal
@@ -134,7 +145,9 @@ def main():
             elif int(inputs[0])==3: #opcion 3
                 print("0")
             elif int(inputs[0])==4: #opcion 4
-                print("0")
+                actor_name=input("Escriba el nombre del actor cuyas peliculas quiera conocer")
+                ejecutar_Conocer_a_un_actor(catalog,genre_name)
+                
             elif int(inputs[0])==5: #opcion 5
                 genre_name=input("Escriba el nombre del Genero que quiere conocer ")
                 ejecutar_Entender_un_género_cinematográfico(catalog, genre_name)
