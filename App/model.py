@@ -204,7 +204,7 @@ def addMovieDirector(criteria,catalog,movie):
     lt.addLast(dire['movie'], movie)
 
     direavg= dire['average_rating']
-    movieavg = movie['vote_count']
+    movieavg = movie['vote_average']
     if (direavg== 0):
             dire['average_rating'] = float(movieavg)
     else:
