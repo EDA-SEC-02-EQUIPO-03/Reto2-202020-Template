@@ -64,8 +64,13 @@ def ejecutar_getMoviesbyCompany(catalog,company_name):
         print(lt.getElement(movies["movie"],i)['vote_average'],"\b")
     print('estas tienen una calificación promedio de de',str(movies["average_rating"]) )
 
-def ejecutar_Conocer_a_un_director():
-
+def ejecutar_Conocer_a_un_director(criteria,catalog):
+    
+    counter=co.conocer_un_director(criteria,catalog)
+    print("Las peliculas del director ",criteria,"son ",counter[1]," las cuales se nombraran en el siguiente listado: \n")
+    for k in  range(1,lt.size(counter[0])+1):
+            print(lt.getElement(counter[0],k))
+    print("Las anteriores tienen un promedio de votación de: ",counter[2])
     return 0 
 def ejecutar_Conocer_a_un_actor():
 
@@ -131,7 +136,8 @@ def main():
                 ejecutar_getMoviesbyCompany(catalog,company_name)
                 
             elif int(inputs[0])==3: #opcion 3
-                print("0")
+                criteria=input("Nombre del director que desea conocer: \n")
+                ejecutar_Conocer_a_un_director(criteria,catalog)
             elif int(inputs[0])==4: #opcion 4
                 print("0")
             elif int(inputs[0])==5: #opcion 5

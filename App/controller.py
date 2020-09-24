@@ -58,7 +58,7 @@ def loadMovies(catalog, booksfile, castingfile):
       autor, se crea una lista con sus libros
     """
     t1_start = process_time()
-    booksfile1 = cf.data_dir + booksfile
+    booksfile1 =cf.data_dir + booksfile 
     booksfile2 = cf.data_dir + castingfile
     input_file = csv.DictReader(open(booksfile1,encoding='utf-8-sig'))
     input_file2 = csv.DictReader(open(booksfile2,encoding='utf-8-sig'))
@@ -106,6 +106,8 @@ def getmovie(lst,pos):
     
 def size(lst):
     return model.size(lst)
+def conocer_un_director(criteria,catalog):
+    return model.conocer_a_un_director(criteria,catalog)
 
 # ___________________________________________________
 #  Funciones de Estetica

@@ -143,6 +143,13 @@ def newPay(name):
     
     return Pay
 
+def newDirector(name):
+    direc= {'name': "","movie": 0, "average_rating":0}
+    direc['name']=name
+    direc['movie']= lt.newList('ARRAY_LINKED', compareAuthorsByName)
+    return direc 
+
+
 def addMovieStudio(catalog, studioname, movie):
     """
     Esta función adiciona un libro a la lista de libros publicados
@@ -188,6 +195,29 @@ def addMovieGenre(catalog, genrename, movie):
         genre['average_rating'] = float(movieavg)
     else:
         genre['average_rating'] = (genreavg + float(movieavg)) / 2
+
+
+def addMovieDirector(criteria,catalog,movie):
+      
+    director= catalog['Directores']
+    existgenre = mp.contains(director, criteria)
+    if existgenre:
+        entry = mp.get(director, criteria)
+        dire = me.getValue(entry)
+    else:
+        dire = newDirector(criteria)
+        mp.put(director, criteria, dire)
+    lt.addLast(dire['name'], criteria)
+    
+    direavg= dire['average_rating']
+    movieavg = movie['vote_count']
+    nummov= mp.size(movie['vote_count'])
+    
+    if (nummov == 0):
+        dire['average_rating'] = 0
+    else:
+        dire['average_rating'] = ((direavg*nummov) + float(movieavg)) / (nummov+1)
+
 
 def addMoviePay(catalog, Payname, movie):
     """
@@ -256,6 +286,9 @@ def getmovie(lst,pos):
 
 def insertelement(lst, element, pos):
     return lt.insertElement(lst, element, pos)
+
+
+
 
 # ==============================
 # Funciones de Comparacion
@@ -338,8 +371,5 @@ def comparePaysbyName(keyname, Pay):
 
 
 # Funciones para agregar informacion al catalogo
-
-
-
 
 
