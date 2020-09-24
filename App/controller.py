@@ -52,7 +52,8 @@ def loadData(catalog, detailsfile, castingfile):
 
 def getMoviesByCompany(catalog,company_name):
     return model.getMoviesByCompany(catalog,company_name)
-
+def getMoviesByActor(catalog, actor_name):
+    return model.getMoviesByActor(catalog, actor_name)
 def getlastmovie(lst):
     return model.getlastmovie(lst)
 

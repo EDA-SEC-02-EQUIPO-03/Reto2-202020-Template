@@ -64,7 +64,13 @@ def ejecutar_getMoviesbyCompany(catalog,company_name):
 #  respuesta.  La vista solo interactua con
 #  el controlador.
 # ___________________________________________________
-
+def ejecutar_getMoviesbyActor(catalog,actor_name):
+    movies=co.getMoviesByActor(catalog,actor_name)
+    print("Las peliculas en las que participa el actor son:\b")
+    for i in range(1,lt.size(movies["movie"])+1):
+        print(lt.getElement(movies["movie"],i)['title'],"\b")
+        
+    print('estas tienen una calificación promedio de de',str(movies["average_rating"]," y son un total de",movies["number_movies"]) )
 
 # ___________________________________________________
 #  Menu principal
